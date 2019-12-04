@@ -3,6 +3,7 @@ package org.jhipster.blog.web.rest;
 import org.jhipster.blog.domain.Entry;
 import org.jhipster.blog.repository.EntryRepository;
 import org.jhipster.blog.web.rest.errors.BadRequestAlertException;
+import org.jhipster.blog.security.SecurityUtils;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -103,6 +104,7 @@ public class EntryResource {
             page = entryRepository.findAllWithEagerRelationships(pageable);
         } else {
             page = entryRepository.findAll(pageable);
+           // page = entryRepository.findByBlogUserLoginOrderByDateDesc(SecurityUtils.getCurrentUserLogin(), pageable);
         }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
